@@ -1,19 +1,11 @@
-###########################################################
-#   File name: main.py
-#   Author: David Moyal / Shlomo Maghen / Samuel Jefroykin
-#   Last updated : 01/18/2017
-###########################################################
-
+import os
+import nltk
+from PyDictionary import PyDictionary
+import webcolors
+import json
 
 BOT_NAME = "ADINA"
 
-import os
-# import nltk
-# from PyDictionary import PyDictionary
-# import webcolors
-
-def introduction():
-	return "Hello, I am %s. I just had a glass of wine. I am here to help you build a website. Should we start?" % BOT_NAME
 
 dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box','video','map','footer')
 
@@ -23,11 +15,16 @@ image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image','picture']
 paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph','text']
 link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link','url link','access','redirection']
 button_syn = synonyms[10]['button'] + ['button']
-text_bar_syn = synonyms[11]['box'] + ['textbox']
+text_box_syn = synonyms[11]['box'] + ['textbox']
 navigation_bar_syn = ['navbar','navigation bar']
 video_syn = synonyms[12]['video'] + ['video']
 map_syn = synonyms[13]['map'] + ['map']
 footer_syn = synonyms[14]['footer'] + ['footer']
+
+def introduction():
+	return """Hello, I am %s. I just had a glass of wine. 
+                I am here to help you build a website. 
+                Should we start?" % BOT_NAME"""
 
 def tokenized(sentence):
 	tokens = nltk.word_tokenize(sentence.lower())
@@ -38,55 +35,32 @@ def entities_tokens(tokens):
 	entities = nltk.chunk.ne_chunk(tagged)
 	return entities
 
-def categorized(sentence):
+def get_element(sentence):
     tokens = tokenized(sentence.lower())
-    category = ''
+    print "analyzing: %s" % sentence
     for token in tokens:
         if token in title_syn:
-            category = 'title'
+            return add_title(sentence)
         elif token in image_syn:
-			category = 'image'
-        elif token in paragraph_syn :
-            category = 'paragraph'
-        elif token in link_syn :
-            category = 'link'
-        elif token in button_syn :
-			category = 'button'
-        elif token in text_bar_syn :
-			category = 'text_bar'
+            return add_image(sentence)
+        elif token in paragraph_syn:
+            return add_paragraph(sentence)
+        elif token in link_syn:
+            return add_link(sentence)
+        elif token in button_syn:
+			return add_button(sentence)
+        elif token in text_box_syn :
+			return add_text_box(sentence)
         elif token in navigation_bar_syn :
-			category = 'navbar'
+			return add_navbar(sentence)
         elif token in video_syn:
-            category = 'video'
+            return add_video(sentence)
         elif token in map_syn:
-            category = 'map'
+            return add_map(sentence)
         elif token in footer_syn:
-            category = 'footer'
-    return category
+            return add_footer(sentence)
+    return failure()
 
-def call_function(category):
-    if category == 'title':
-        add_title()
-    elif category == 'button':
-        add_button()
-    elif category == 'footer':
-        add_footer()
-    elif category == 'map':
-        add_map()
-    elif category == 'image':
-        add_image()
-    elif category == 'link':
-        add_link()
-    elif category == 'navbar':
-        add_navbar()
-    elif category == 'paragraph':
-        add_paragraph()
-    elif category == 'text_bar':
-        add_text_bar()
-    elif category == 'video':
-        add_video()
-    else:
-        failure()
 
 def color_find_attributes(token,tokens):
     color = ''
@@ -99,25 +73,26 @@ def color_find_attributes(token,tokens):
     return 0
 
 def failure():
-    print 'Error'
+    return "I didnt understand that."
     
-def add_text_bar():
+def add_text_box(sentence):
     return 0
 
-def add_map():
+def add_map(sentence):
     return 0
 
-def add_footer():
+def add_footer(sentence):
     return 0
 
-def add_video():
-    return 0
+def add_video(sentence):
+    return json.dumps({response: "What is the link?"})
 
 
 def add_title(text=None):
 	if text is None:
 		text = get_input_from_user("text")
-	render_title(text=text)
+	# render_title(text=text)
+	return "This is a title"
 
 def add_navbar():
 	return 0

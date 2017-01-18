@@ -9,9 +9,9 @@ def chatbot():
 	return render_template("chatbot.html")
 
 
-@app.route("/get_response")
-def get_response():
-	return
+@app.route("/get_response/<sentence>")
+def get_response(sentence):
+	return david.get_element(sentence)	
 
 if __name__ == "__main__":
     app.run()

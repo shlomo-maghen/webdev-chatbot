@@ -1,15 +1,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-	var my_function = function(){
-		$.get("/get_response", function(data){
-			console.log(data);
-		});
+	
+	// create empty chat object
+	chat_object = {}
 
+	var my_function = function(){
+		chat_object["chat_text"] = $("#chat_text").val();
+		chat_object_string = chat_object.stringify();
+		return false;
+		console.log(chat_object_string);
+		$.get("/get_response/"+chat_object_string, function(data){
+			chat_object = data;
+			$("#chat_box").append("<p>"+chat_object["response"]+"</p>");
+			// if(data["done"] == false){
+
+			// }else 
+			if(data["done"] == true){
+				chat_obj = {}
+			}
+		});
 	}
 </script>
 
 <title>CHATBOT</title>
 <h1>Hello, World!</h1>
 
+<form onsubmit="my_function(); return false;">
+	<input id="chat_text" type="text"/>
+	<input type='submit'/>
+</form>
+<div id="chat_box" style="width: 500px; height: 500px; border: 1px solid black">
 
-<input type='submit' onclick="my_function()"/>
+</div>
