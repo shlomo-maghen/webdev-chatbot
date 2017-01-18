@@ -5,7 +5,7 @@
 ###########################################################
 
 
-BOT_NAME = "SECRET NAME"
+BOT_NAME = "ADINA"
 
 import os
 
@@ -35,13 +35,4 @@ def add_button():
 
 
 def add_link():
-    return 0
-
-
-def main():
-    os.system("say " + introduction())
-
-
-if __name__ == '__main__':
-    # TODO: Parse arguments from the user here
-    main()
+    return 0 
