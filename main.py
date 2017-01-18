@@ -4,14 +4,14 @@ import david
 app = Flask(__name__)
 
 
-
 @app.route("/")
 def chatbot():
+	return render_template("chatbot.html")
 
-	return render_template("chatbot.html", name="shlomo")
 
-def test():
-	print 'ran'
-	
+@app.route("/get_response")
+def get_response():
+	return
+
 if __name__ == "__main__":
     app.run()
