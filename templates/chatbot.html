@@ -2,23 +2,32 @@
 <script type="text/javascript">
 	
 	// create empty chat object
-	chat_object = {}
+	chat_object = {"done":false}
 
 	var my_function = function(){
 		chat_object["chat_text"] = $("#chat_text").val();
-		chat_object_string = chat_object.stringify();
-		return false;
+		chat_object_string = JSON.stringify(chat_object);
+		
+		// print stringified object
 		console.log(chat_object_string);
-		$.get("/get_response/"+chat_object_string, function(data){
-			chat_object = data;
-			$("#chat_box").append("<p>"+chat_object["response"]+"</p>");
-			// if(data["done"] == false){
 
-			// }else 
-			if(data["done"] == true){
-				chat_obj = {}
+		$.get({
+			url: "/get_response/",
+			data: chat_object_string,
+			dataType: 'json',
+			method: 'post',
+			success:function(data){
+				chat_object = data;
+				// if(data["done"] == false){
+					
+				// }else 
+				if(data["done"] == true){
+					chat_obj = {"done":false}
+				}
+				$("#chat_box").append("<p>"+chat_object["response"]+"</p>");
 			}
 		});
+		return false;
 	}
 </script>
 

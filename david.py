@@ -26,8 +26,8 @@ footer_syn = synonyms[14]['footer'] + ['footer']
 
 def introduction():
 	return """Hello, I am %s. I just had a glass of wine. 
-                I am here to help you build a website. 
-                Should we start?" % BOT_NAME"""
+				I am here to help you build a website. 
+				Should we start?" % BOT_NAME"""
 
 def tokenized(sentence):
 	tokens = nltk.word_tokenize(sentence.lower())
@@ -40,57 +40,60 @@ def entities_tokens(tokens):
 	return entities
 
 
-def get_element(sentence):
-    tokens = tokenized(sentence.lower())
-    print "analyzing: %s" % sentence
-    for token in tokens:
-        if token in title_syn:
-            return add_title(sentence)
-        elif token in image_syn:
-            return add_image(sentence)
-        elif token in paragraph_syn:
-            return add_paragraph(sentence)
-        elif token in link_syn:
-            return add_link(sentence)
-        elif token in button_syn:
+def get_element(json_obj):
+	
+	sentence = json_obj["chat_text"]
+	tokens = tokenized(sentence.lower())
+	print "analyzing: %s" % sentence
+	for token in tokens:
+		if token in title_syn:
+			return add_title(sentence)
+		elif token in image_syn:
+			return add_image(sentence)
+		elif token in paragraph_syn:
+			return add_paragraph(sentence)
+		elif token in link_syn:
+			return add_link(sentence)
+		elif token in button_syn:
 			return add_button(sentence)
-        elif token in text_box_syn :
+		elif token in text_box_syn :
 			return add_text_box(sentence)
-        elif token in navigation_bar_syn :
+		elif token in navigation_bar_syn :
 			return add_navbar(sentence)
-        elif token in video_syn:
-            return add_video(sentence)
-        elif token in map_syn:
-            return add_map(sentence)
-        elif token in footer_syn:
-            return add_footer(sentence)
-    return failure()
+		elif token in video_syn:
+			return add_video(sentence)
+		elif token in map_syn:
+			return add_map(sentence)
+		elif token in footer_syn:
+			return add_footer(sentence)
+	return failure()
 
 
 def color_find_attributes(token,tokens):
-    color = ''
-    for token in tokens:
-        if token in webcolors.CSS3_NAMES_TO_HEX:
-            color = webcolors.name_to_hex(token)
-    if color == '':
-        ask_color()
-    # find the parameters
-    return 0
+	color = ''
+	for token in tokens:
+		if token in webcolors.CSS3_NAMES_TO_HEX:
+			color = webcolors.name_to_hex(token)
+	if color == '':
+		ask_color()
+	# find the parameters
+	return 0
 
 def failure():
-    return "I didnt understand that."
-    
+	return "I didnt understand that."
+	
 def add_text_box(sentence):
-    return 0
+	return 0
 
 def add_map(sentence):
-    return 0
+	return 0
 
 def add_footer(sentence):
-    return 0
+	return 0
 
 def add_video(sentence):
-    return json.dumps({response: "What is the link?"})
+	# if sentence doesnt have link
+	return json.dumps({"done": "false", "response": "What is the link?"})
 
 
 # def color_find_attributes(token,tokens):
