@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def hello():
-	# return "sdfsdfsdfsd"
+def chatbot():
+	display_chat_message(david.introduction())
 	return david.introduction()
 
 if __name__ == "__main__":
