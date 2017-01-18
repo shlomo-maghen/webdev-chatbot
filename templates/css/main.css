@@ -27,6 +27,9 @@
     overflow-y: scroll;
     margin-top: 0;
 }
+.none {
+    display: none;
+}
 .talkingTo {
     display: inline-block;
     height: 80px;
