@@ -5,15 +5,18 @@ import webcolors
 import json
 
 BOT_NAME = "ADINA"
-
-
-dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box','video','map','footer')
+###########################################################
+#   File name: main.py
+#   Author: David Moyal / Shlomo Maghen / Samuel Jefroykin
+#   Last updated : 01/18/2017
+###########################################################
+dictionary = PyDictionary('headline', 'title', 'image', 'picture', 'paragraph', 'text', 'url-link', 'link', 'access', 'redirection', 'button', 'box', 'video', 'map', 'footer')
 
 synonyms = dictionary.getSynonyms()
-title_syn = synonyms[1]['title'] + synonyms[0]['headline'] + ['headline','title']
-image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image','picture']
-paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph','text']
-link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link','url link','access','redirection']
+title_syn = synonyms[1]['title'] + synonyms[0]['headline'] + ['headline', 'title', 'name']
+image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image', 'picture']
+paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', 'text']
+link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection']
 button_syn = synonyms[10]['button'] + ['button']
 text_box_syn = synonyms[11]['box'] + ['textbox']
 navigation_bar_syn = ['navbar','navigation bar']
@@ -30,10 +33,12 @@ def tokenized(sentence):
 	tokens = nltk.word_tokenize(sentence.lower())
 	return tokens
 
+
 def entities_tokens(tokens):
 	tagged = nltk.pos_tag(tokens)
 	entities = nltk.chunk.ne_chunk(tagged)
 	return entities
+
 
 def get_element(sentence):
     tokens = tokenized(sentence.lower())
@@ -88,31 +93,55 @@ def add_video(sentence):
     return json.dumps({response: "What is the link?"})
 
 
+# def color_find_attributes(token,tokens):
+# 	color = ''
+# 	for token in tokens:
+# 		if token in webcolors.CSS3_NAMES_TO_HEX:
+# 			color = webcolors.name_to_hex(token)
+# 	if color == '':
+# 		ask_color()
+# 	# find the parameters
+# 	return 0
+
+
+def failure():
+	return 'I am sorry, I did not understand, it might be the wine...'
+
+
+def add_text_box(sentence):
+	return 0
+
+
+def add_map(sentence):
+	return 0
+
+
+def add_footer(sentence):
+	return 0
+
 def add_title(text=None):
 	if text is None:
 		text = get_input_from_user("text")
 	# render_title(text=text)
 	return "This is a title"
 
-def add_navbar():
+def add_navbar(sentence):
 	return 0
 
 
-def add_image():
-	fields = ["url"]
-	responses = get_all_fields(fields)
+def add_image(sentence):
 	return 0
 
 
-def add_paragraph():
+def add_paragraph(sentence):
 	return 0
 
 
-def add_button():
+def add_button(sentence):
 	return 0
 
 
-def add_link():
+def add_link(sentence):
 	return 0 
 
 
@@ -130,6 +159,32 @@ def get_input_from_user(text):
 def display_chat_message(message):
 	# display the message to the user
 	return
+
+
+def render(type, data):
+	if type == 'title':
+		return
+	elif type == 'button':
+		return
+	elif type == 'footer':
+		return
+	elif type == 'map':
+		return
+	elif type == 'image':
+		return
+	elif type == 'link':
+		return
+	elif type == 'navbar':
+		return
+	elif type == 'paragraph':
+		return
+	elif type == 'text_bar':
+		return
+	elif type == 'video':
+		return
+	else:
+		failure()
+
 
 def get_all_fields(fields):
 	responses = {}
