@@ -5,9 +5,9 @@
 ###########################################################
 
 import os
-import nltk
-from PyDictionary import PyDictionary
-import webcolors
+# import nltk
+# from PyDictionary import PyDictionary
+# import webcolors
 
 
 BOT_NAME = "ADINA"
@@ -132,6 +132,8 @@ def get_input_from_user(text):
 	message = "What is the %s" % text
 	# display the message to the user
 	display_chat_message(message)
+	response = get_response() #implement
+
 
 def display_chat_message(message):
 	# display the message to the user
@@ -161,3 +163,11 @@ def render(type, data):
 		return
 	else:
 		failure()
+
+
+def get_all_fields(fields):
+	responses = {}
+	for field in fields:
+		response = get_input_from_user(field)
+		responses[field] = response
+	return responses
