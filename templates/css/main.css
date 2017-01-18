@@ -27,6 +27,9 @@
     overflow-y: scroll;
     margin-top: 0;
 }
+.none {
+    display: none;
+}
 .talkingTo {
     display: inline-block;
     height: 80px;
@@ -46,6 +49,17 @@
     /*transform-origin: left bottom;*/
     /*overflow-y: hidden;*/
     /*clear: both;*/
+    padding-left: 25px;
+    padding-right: 50px;
+    padding-top: 10px;
+}
+.messageContainer.user {
+    /*transition: all 0.5s;*/
+    /*transform: scale(1);*/
+    /*opacity: 1;*/
+    /*transform-origin: left bottom;*/
+    /*overflow-y: hidden;*/
+    /*clear: both;*/
     padding-left: 50px;
     padding-right: 25px;
     padding-top: 10px;
@@ -58,6 +72,18 @@
     display: inline-block;
     max-width: 300px;
     background: #eee;
+    border-radius: 15px;
+    clear: both;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+.chatMessageUser{
+    padding: 3px 12px;
+    font-size: 16px;
+    line-height: 24px;
+    display: inline-block;
+    max-width: 300px;
+    background: #FFD1DC;
     border-radius: 15px;
     clear: both;
     margin-bottom: 10px;
@@ -98,4 +124,15 @@ footer {
     line-height: 60px;
     background: #333;
     color: #4f4f4f;
+}
+.user-discussion{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.userEnter{
+    display: inline-block;
+}
+.form-control.name-field{
+    width: 189px;
 }

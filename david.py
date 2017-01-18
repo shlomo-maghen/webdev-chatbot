@@ -1,17 +1,15 @@
+import os
+import nltk
+from PyDictionary import PyDictionary
+import webcolors
+import json
+
+BOT_NAME = "ADINA"
 ###########################################################
 #   File name: main.py
 #   Author: David Moyal / Shlomo Maghen / Samuel Jefroykin
 #   Last updated : 01/18/2017
 ###########################################################
-
-import os
-# import nltk
-# from PyDictionary import PyDictionary
-# import webcolors
-
-
-BOT_NAME = "ADINA"
-
 dictionary = PyDictionary('headline', 'title', 'image', 'picture', 'paragraph', 'text', 'url-link', 'link', 'access', 'redirection', 'button', 'box', 'video', 'map', 'footer')
 
 synonyms = dictionary.getSynonyms()
@@ -21,15 +19,15 @@ paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', '
 link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection']
 button_syn = synonyms[10]['button'] + ['button']
 text_box_syn = synonyms[11]['box'] + ['textbox']
-navigation_bar_syn = ['navbar', 'navigation bar']
+navigation_bar_syn = ['navbar','navigation bar']
 video_syn = synonyms[12]['video'] + ['video']
 map_syn = synonyms[13]['map'] + ['map']
 footer_syn = synonyms[14]['footer'] + ['footer']
 
-
 def introduction():
-	return "Hello, I am %s. I just had a glass of wine. I am here to help you build a website. Should we start?" % BOT_NAME
-
+	return """Hello, I am %s. I just had a glass of wine. 
+                I am here to help you build a website. 
+                Should we start?" % BOT_NAME"""
 
 def tokenized(sentence):
 	tokens = nltk.word_tokenize(sentence.lower())
@@ -43,29 +41,56 @@ def entities_tokens(tokens):
 
 
 def get_element(sentence):
-	tokens = tokenized(sentence.lower())
-	for token in tokens:
-		if token in title_syn:
-			add_title(sentence)
-		if token in image_syn:
-			add_image(sentence)
-		if token in paragraph_syn:
-			add_paragraph(sentence)
-		if token in link_syn :
-			add_link(sentence)
-		if token in button_syn :
-			add_button(sentence)
-		if token in text_box_syn:
-			add_text_box(sentence)
-		if token in navigation_bar_syn :
-			add_navbar(sentence)
-		if token in video_syn:
-			add_video(sentence)
-		if token in map_syn:
-			add_map(sentence)
-		if token in footer_syn:
-			add_footer(sentence)
-	return failure()  # not found
+    tokens = tokenized(sentence.lower())
+    print "analyzing: %s" % sentence
+    for token in tokens:
+        if token in title_syn:
+            return add_title(sentence)
+        elif token in image_syn:
+            return add_image(sentence)
+        elif token in paragraph_syn:
+            return add_paragraph(sentence)
+        elif token in link_syn:
+            return add_link(sentence)
+        elif token in button_syn:
+			return add_button(sentence)
+        elif token in text_box_syn :
+			return add_text_box(sentence)
+        elif token in navigation_bar_syn :
+			return add_navbar(sentence)
+        elif token in video_syn:
+            return add_video(sentence)
+        elif token in map_syn:
+            return add_map(sentence)
+        elif token in footer_syn:
+            return add_footer(sentence)
+    return failure()
+
+
+def color_find_attributes(token,tokens):
+    color = ''
+    for token in tokens:
+        if token in webcolors.CSS3_NAMES_TO_HEX:
+            color = webcolors.name_to_hex(token)
+    if color == '':
+        ask_color()
+    # find the parameters
+    return 0
+
+def failure():
+    return "I didnt understand that."
+    
+def add_text_box(sentence):
+    return 0
+
+def add_map(sentence):
+    return 0
+
+def add_footer(sentence):
+    return 0
+
+def add_video(sentence):
+    return json.dumps({response: "What is the link?"})
 
 
 # def color_find_attributes(token,tokens):
@@ -94,15 +119,11 @@ def add_map(sentence):
 def add_footer(sentence):
 	return 0
 
-
-def add_video(sentence):
-	return 0
-
-
-def add_title(sentence):
-	text = get_input_from_user("text")
-	render(text=text)
-
+def add_title(text=None):
+	if text is None:
+		text = get_input_from_user("text")
+	# render_title(text=text)
+	return "This is a title"
 
 def add_navbar(sentence):
 	return 0
