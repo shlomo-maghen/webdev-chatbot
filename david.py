@@ -15,20 +15,34 @@ import webcolors
 def introduction():
 	return "Hello, I am %s. I just had a glass of wine. I am here to help you build a website. Should we start?" % BOT_NAME
 
-dictionary=PyDictionary('headline','title')
 
-title_syn = dictionary.getSynonyms()
-title_syn = title_syn[1]['title']+title_syn[0]['headline']
+dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box')
+
+synonyms = dictionary.getSynonyms()
+title_syn = synonyms[1]['title']+synonyms[0]['headline'] + ['headline','title']
+image_syn = synonyms[2]['image']+synonyms[3]['picture'] + ['image','picture']
+paragraph_syn = synonyms[4]['image']+synonyms[5]['picture'] + ['paragraph','text']
+link_syn = synonyms[6]['url-link']+synonyms[7]['link']+synonyms[8]['access']+synonyms[9]['redirection']+ ['link','url link','access','redirection']
+button_syn = synonyms[10]['button'] + ['button']
+text_bar_syn = synonyms[11]['box']+ ['Textbox']
+navigation_bar = ['navbar','navigation bar']
 
 
 sentence = 'insert blue title'
 
-tokens = nltk.word_tokenize(sentence)
-print tokens
 
-tagged = nltk.pos_tag(tokens)
-entities = nltk.chunk.ne_chunk(tagged)
-print entities
+def tokenized(sentence):
+
+	tokens = nltk.word_tokenize(sentence)
+	return tokens
+
+
+
+def entities_tokens(tokens):
+
+	tagged = nltk.pos_tag(tokens)
+	entities = nltk.chunk.ne_chunk(tagged)
+	return entities
 
 def find_keyword(tokens):
     for token in tokens:
@@ -36,8 +50,7 @@ def find_keyword(tokens):
             title_function_find_attributes(token,tokens)
 
 
-
-def title_function_find_attributes(token,tokens):
+def color_find_attributes(token,tokens):
     color = ''
     for token in tokens:
         if token in webcolors.CSS3_NAMES_TO_HEX:
