@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 import david
 app = Flask(__name__)
 
@@ -6,8 +7,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def chatbot():
-	display_chat_message(david.introduction())
-	return david.introduction()
 
+	return render_template("chatbot.html", name="shlomo")
+
+def test():
+	print 'ran'
+	
 if __name__ == "__main__":
     app.run()
