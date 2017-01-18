@@ -5,26 +5,30 @@
 	chat_object = {"done":false}
 
 	var my_function = function(){
-		chat_object["chat_text"] = $("#chat_text").val();
-		chat_object_string = JSON.stringify(chat_object);
-		
-		// print stringified object
-		console.log(chat_object_string);
-
+		// get the sentence the user typed
+		user_input = $("#chat_text").val();
+		chat_object["chat_text"] = user_input;
+		console.log(chat_object)
+		// if we need a field, add it to the chat object
+		if ("needs" in chat_object){
+			chat_object[chat_object["needs"]] = user_input;
+		}
+		//make request
 		$.get({
 			url: "/get_response/",
-			data: chat_object_string,
+			data: JSON.stringify(chat_object),
 			dataType: 'json',
 			method: 'post',
 			success:function(data){
 				chat_object = data;
-				// if(data["done"] == false){
-					
-				// }else 
-				if(data["done"] == true){
-					chat_obj = {"done":false}
-				}
+				console.log(chat_object);
 				$("#chat_box").append("<p>"+chat_object["response"]+"</p>");
+				
+				if(data["done"] == 'true'){
+					console.log("adding this object");
+					chat_object = {"done":false}
+				}
+
 			}
 		});
 		return false;
