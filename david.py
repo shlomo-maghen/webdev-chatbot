@@ -15,7 +15,6 @@ import webcolors
 def introduction():
 	return "Hello, I am %s. I just had a glass of wine. I am here to help you build a website. Should we start?" % BOT_NAME
 
-
 dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box')
 
 synonyms = dictionary.getSynonyms()
@@ -25,30 +24,36 @@ paragraph_syn = synonyms[4]['image']+synonyms[5]['picture'] + ['paragraph','text
 link_syn = synonyms[6]['url-link']+synonyms[7]['link']+synonyms[8]['access']+synonyms[9]['redirection']+ ['link','url link','access','redirection']
 button_syn = synonyms[10]['button'] + ['button']
 text_bar_syn = synonyms[11]['box']+ ['Textbox']
-navigation_bar = ['navbar','navigation bar']
-
-
-sentence = 'insert blue title'
-
+navigation_bar_syn = ['navbar','navigation bar']
 
 def tokenized(sentence):
-
 	tokens = nltk.word_tokenize(sentence)
 	return tokens
 
-
-
 def entities_tokens(tokens):
-
 	tagged = nltk.pos_tag(tokens)
 	entities = nltk.chunk.ne_chunk(tagged)
 	return entities
 
-def find_keyword(tokens):
+def categorized(sentence):
+    tokens = tokenized(sentence)
+    category = ''
     for token in tokens:
         if token in title_syn:
-            title_function_find_attributes(token,tokens)
-
+            category = 'title'
+        elif token in image_syn:
+			category = 'image'
+        elif token in paragraph_syn :
+            category = 'paragraph'
+        elif token in link_syn :
+            category = 'link'
+        elif token in button_syn :
+			category = 'button'
+        elif token in text_bar_syn :
+			category = 'text_bar'
+        elif token in navigation_bar_syn :
+			category = 'navigation_bar'
+    return category
 
 def color_find_attributes(token,tokens):
     color = ''
