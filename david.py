@@ -15,19 +15,22 @@ import webcolors
 def introduction():
 	return "Hello, I am %s. I just had a glass of wine. I am here to help you build a website. Should we start?" % BOT_NAME
 
-dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box')
+dictionary=PyDictionary('headline','title','image','picture','paragraph','text','url-link','link','access','redirection','button','box','video','map','footer')
 
 synonyms = dictionary.getSynonyms()
-title_syn = synonyms[1]['title']+synonyms[0]['headline'] + ['headline','title']
-image_syn = synonyms[2]['image']+synonyms[3]['picture'] + ['image','picture']
-paragraph_syn = synonyms[4]['image']+synonyms[5]['picture'] + ['paragraph','text']
-link_syn = synonyms[6]['url-link']+synonyms[7]['link']+synonyms[8]['access']+synonyms[9]['redirection']+ ['link','url link','access','redirection']
+title_syn = synonyms[1]['title'] + synonyms[0]['headline'] + ['headline','title']
+image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image','picture']
+paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph','text']
+link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link','url link','access','redirection']
 button_syn = synonyms[10]['button'] + ['button']
-text_bar_syn = synonyms[11]['box']+ ['Textbox']
+text_bar_syn = synonyms[11]['box'] + ['textbox']
 navigation_bar_syn = ['navbar','navigation bar']
+video_syn = synonyms[12]['video'] + ['video']
+map_syn = synonyms[13]['map'] + ['map']
+footer_syn = synonyms[14]['footer'] + ['footer']
 
 def tokenized(sentence):
-	tokens = nltk.word_tokenize(sentence)
+	tokens = nltk.word_tokenize(sentence.lower())
 	return tokens
 
 def entities_tokens(tokens):
@@ -36,7 +39,7 @@ def entities_tokens(tokens):
 	return entities
 
 def categorized(sentence):
-    tokens = tokenized(sentence)
+    tokens = tokenized(sentence.lower())
     category = ''
     for token in tokens:
         if token in title_syn:
@@ -52,8 +55,38 @@ def categorized(sentence):
         elif token in text_bar_syn :
 			category = 'text_bar'
         elif token in navigation_bar_syn :
-			category = 'navigation_bar'
+			category = 'navbar'
+        elif token in video_syn:
+            category = 'video'
+        elif token in map_syn:
+            category = 'map'
+        elif token in footer_syn:
+            category = 'footer'
     return category
+
+def call_function(category):
+    if category == 'title':
+        add_title()
+    elif category == 'button':
+        add_button()
+    elif category == 'footer':
+        add_footer()
+    elif category == 'map':
+        add_map()
+    elif category == 'image':
+        add_image()
+    elif category == 'link':
+        add_link()
+    elif category == 'navbar':
+        add_navbar()
+    elif category == 'paragraph':
+        add_paragraph()
+    elif category == 'text_bar':
+        add_text_bar()
+    elif category == 'video':
+        add_video()
+    else:
+        failure()
 
 def color_find_attributes(token,tokens):
     color = ''
@@ -64,6 +97,22 @@ def color_find_attributes(token,tokens):
         ask_color()
     # find the parameters
     return 0
+
+def failure():
+    print 'Error'
+    
+def add_text_bar():
+    return 0
+
+def add_map():
+    return 0
+
+def add_footer():
+    return 0
+
+def add_video():
+    return 0
+
 
 def add_title(text=None):
 	if text is None:
@@ -78,7 +127,7 @@ def add_image():
 	return 0
 
 
-def add_text():
+def add_paragraph():
 	return 0
 
 
