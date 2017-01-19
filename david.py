@@ -18,7 +18,6 @@ image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image', 'picture']
 paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', 'text']
 link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection']
 button_syn = synonyms[10]['button'] + ['button']
-text_box_syn = synonyms[11]['box'] + ['textbox']
 navigation_bar_syn = ['navbar','navigation bar']
 video_syn = synonyms[12]['video'] + ['video']
 map_syn = synonyms[13]['map'] + ['map']
@@ -57,8 +56,6 @@ def get_element(json_obj):
 			return add_link(json_obj)
 		elif token in button_syn:
 			return add_button(json_obj)
-		elif token in text_box_syn :
-			return add_text_box(json_obj)
 		elif token in navigation_bar_syn :
 			return add_navbar(json_obj)
 		elif token in video_syn:
@@ -82,15 +79,7 @@ def color_find_attributes(token,tokens):
 
 def failure():
 	return json.dumps({"response": "I am sorry, I did not understand, it might be the wine..."})
-	
-def add_text_box(sentence):
-	return 0
 
-def add_map(sentence):
-	return 0
-
-def add_footer(sentence):
-	return 0
 
 def add_video(json_obj):
 	# the required fields for a video
@@ -99,51 +88,150 @@ def add_video(json_obj):
 		if field not in json_obj:
 			json_obj["needs"] = field
 			json_obj["function"] = "add_video"
-			json_obj["response"] = "What is the link?"
+			json_obj["response"] = "What is the link to your video?"
 			return json.dumps(json_obj)
-	del json_obj["needs"]
-	del json_obj["function"]
-	json_obj["response"] = "Adding your element"
-	json_obj["done"] = "true"
-	return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Done. I added your video!"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
-
-def add_text_box(sentence):
-	return 0
-
-
-def add_map(sentence):
-	return 0
-
-
-def add_footer(sentence):
-	return 0
-
-def add_title(text=None):
-	if text is None:
-		text = get_input_from_user("text")
-	# render_title(text=text)
-	return "This is a title"
-
-def add_navbar(sentence):
-	return 0
+def add_map(json_obj):
+	# the required fields for a video
+	fields = ["location"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_map"
+			json_obj["response"] = "Give me the location you want to display (address)?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Got it! Your map is ready ;)"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
-def add_image(sentence):
-	return 0
+def add_footer(json_obj):
+	# the required fields for a footer
+	fields = ["color"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_footer"
+			json_obj["response"] = "What color would you like for the footer?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Footer it is..."
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
-def add_paragraph(sentence):
-	return 0
+def add_title(json_obj):
+	# the required fields for a title
+	fields = ["title"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_title"
+			json_obj["response"] = "What title would you like?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "What a good title!"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
-def add_button(sentence):
-	return 0
+def add_navbar(json_obj):
+	# the required fields for a navbar
+	fields = ["color"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_navbar"
+			json_obj["response"] = "What color do you want for the navbar?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "You've got a nice navigation bar now!"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
-def add_link(sentence):
-	return 0 
+def add_image(json_obj):
+	# the required fields for an image
+	fields = ["link"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_image"
+			json_obj["response"] = "What is the link to your image?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Your website is now more vivid ;)"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
+
+
+def add_paragraph(json_obj):
+	# the required fields for a paragraph
+	fields = ["text"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_paragraph"
+			json_obj["response"] = "What is the text for your paragraph?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Yeah, it's better than Lorem Ipsum. Paragraph added."
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
+
+
+def add_button(json_obj):
+	# the required fields for a button
+	fields = ["text"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_button"
+			json_obj["response"] = "What is the text for the button?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Damn, I want to click on that button!"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
+
+
+def add_link(json_obj):
+	# the required fields for a link
+	fields = ["link"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_link"
+			json_obj["response"] = "What is the link you want to add?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Link linked! Kuddoz"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
 
 def get_input_from_user(text):
