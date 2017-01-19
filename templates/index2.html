@@ -1,7 +1,8 @@
 <html>
 <head>
 	<title>alisa.ai</title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index2.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index2.css')}}?v=13">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bootstrap.min.css')}}?v=13">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='rebecca.js')}}"></script>
 	<script type="text/javascript">
@@ -50,14 +51,18 @@
 	</script>
 </head>
 <body>
-	<div id='chat'>
+	<div class="long element" id='chat'>
+        <p class="talkingTo">
+            <a><img src="{{ url_for('static', filename='logoAlisaFinal.png') }}" alt="Logo Alisa"></a>
+        </p>
 		<div id="chatarea">
 			<p class="alisa message">Let's build a site</p>
 			<p class="user_message message">Make me a site</p>
 		</div>
 		<form onsubmit='send(); return false;'>
 			<input type='text' id='user_input'>
-			<input type='submit' value="Enter">
+{#			<input type='submit' value="Enter">#}
+            <button type="submit" class="btn btn-primary">Send</button>
 		</form>
 	</div>
 	<div id="preview"></div>

@@ -9,6 +9,50 @@
     <link href="../static/bootstrap.min.css" rel="stylesheet">
     <link href="{{url_for('static', filename='main.css')}}" rel="stylesheet">
     <link rel="shortcut icon" href="{{url_for('static', filename='logoAlisaFinal.png')}}">
+    	<script type="text/javascript">
+		// create empty chat object
+		chat_object = {"done": false};
+		$("#chat_text").focus();
+		var send = function(){
+			// get the sentence the user typed
+			chat_text = $("#chat_text").val();
+			chat_object["chat_text"] = chat_text;
+			uchat_text = $("#chat_text").val('');
+			// if we need a field, add it to the chat object
+			if ("needs" in chat_object){
+				chat_object[chat_object["needs"]] = chat_text;
+			}
+			//make request
+			$.get({
+				url: "/get_response/",
+				data: JSON.stringify(chat_object),
+				dataType: 'json',
+				method: 'post',
+				success:function(data){
+					console.log('data received from server:');
+					console.log(data);
+
+					messageContainer = document.getElementByClassName("messageContainer");
+					// add user message
+					$(".messageContainer").append("<p class='user_message'>"+chat_object["user_input"]+"</p>");
+					// adjust scroll
+					messageContainer.scrollTop = messageContainer.scrollHeight
+					// get alisas message
+					chat_object = data;
+					// append alisas message
+					$(".messageContainer").append("<p class='alisa'>"+chat_object["response"]+"</p>");
+					// adjust scroll
+					messageContainer.scrollTop = messageContainer.scrollHeight
+
+					if(data["done"] == 'true'){
+						getFrontendElement(chat_object);
+						chat_object = {"done":false}
+					}
+				}
+			});
+			return false;
+		}
+	</script>
 
 </head>
 <body>
@@ -17,7 +61,6 @@
     <p class="talkingTo">
         <a><img src="{{url_for('static', filename='logoAlisaFinal.png')}}" alt="Logo Alisa"></a>
     </p>
-
     <div id="startFirst" class="messageContainer, none">
         <p class="chatMessage authorWeba">Hey my name is WebAlisa !</p>
     </div>
@@ -56,6 +99,6 @@
 <script type = "text/javascript" src="js/main.js"></script>-->
 <script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='chatbot.js')}}"></script>
+{#<script type="text/javascript" src="{{url_for('static', filename='chatbot.js')}}"></script>#}
 </body>
 </html>
