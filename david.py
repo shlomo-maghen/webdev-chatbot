@@ -100,7 +100,7 @@ def color_find_attributes(token,tokens):
 
 def failure():
     print 'Error'
-    
+
 def add_text_bar():
     return 0
 
