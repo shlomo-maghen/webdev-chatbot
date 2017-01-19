@@ -98,12 +98,15 @@ def find_size(sentence):
 def has_url(sentence):
     tokens = sentence.split()
     for token in tokens:
+
         if '.' not in token or len(token) < 3:
             continue
         if "http" not in token:
             token = "http://" + token
         try:
            urllib.urlopen(token)
+           if 'youtube' in token:
+           		token = token.replace("watch?v=", 'embed/')	
            return token
         except:
             continue
@@ -115,6 +118,7 @@ def failure():
 
 
 def add_video(json_obj):
+	# required fields
 	fields = ["src"]
 	
 	sentence = json_obj["user_input"]
@@ -122,6 +126,7 @@ def add_video(json_obj):
 	
 	json_obj["type"] = "video"
 	json_obj["tag"] = "iframe"
+	json_obj["function"] = "add_video"
 
 	if url:
 		json_obj["src"] = url
@@ -132,7 +137,6 @@ def add_video(json_obj):
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
-			json_obj["function"] = "add_video"
 			json_obj["response"] = "What is the link to your video?"
 			return json.dumps(json_obj)
 		elif "src" in json_obj:
@@ -142,11 +146,13 @@ def add_video(json_obj):
 			else:
 				json_obj["src"] = url
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Done. I added your video!"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			new_object = {"done": "true", "tag": "iframe", "type": "video",
+				"src": json_obj["link"], "response": "Done. I added your video!"}
+			# del json_obj["needs"]
+			# del json_obj["function"]
+			# json_obj["response"] = "Done. I added your video!"
+			# json_obj["done"] = "true"
+			return json.dumps(new_object)
 
 
 def add_map(json_obj):
@@ -218,20 +224,51 @@ def add_navbar(json_obj):
 
 
 def add_image(json_obj):
-	# the required fields for an image
-	fields = ["link"]
+	fields = ["src"]
+	json_obj["type"] = "image"
+	json_obj["tag"] = "img"
+	json_obj["function"] = "add_image"
+	
+	sentence = json_obj["user_input"]
+	url = has_url(sentence)
+	
+	if url:
+		json_obj["src"] = url
+		json_obj["response"] = "Your photo appears!"
+		json_obj["done"] = "true"
+		return json.dumps(json_obj)
+	
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
-			json_obj["function"] = "add_image"
 			json_obj["response"] = "What is the link to your image?"
 			return json.dumps(json_obj)
+		elif "src" in json_obj:
+			if not url:
+				json_obj["response"] = "That was not a valid link. Try again."
+				return json.dumps(json_obj)
+			else:
+				json_obj["src"] = url
 		else:
 			del json_obj["needs"]
 			del json_obj["function"]
-			json_obj["response"] = "Your website is now more vivid ;)"
+			json_obj["response"] = "Your website is now more vivid!"
 			json_obj["done"] = "true"
 			return json.dumps(json_obj)
+	# the required fields for an image
+	# fields = ["link"]
+	# for field in fields:
+	# 	if field not in json_obj:
+	# 		json_obj["needs"] = field
+	# 		json_obj["function"] = "add_image"
+	# 		json_obj["response"] = "What is the link to your image?"
+	# 		return json.dumps(json_obj)
+	# 	else:
+	# 		del json_obj["needs"]
+	# 		del json_obj["function"]
+	# 		json_obj["response"] = "Your website is now more vivid ;)"
+	# 		json_obj["done"] = "true"
+	# 		return json.dumps(json_obj)
 
 
 def add_paragraph(json_obj):

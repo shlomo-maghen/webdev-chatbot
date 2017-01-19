@@ -31,9 +31,10 @@
 //     src: "https://www.youtube.com/embed/4Ru2eei4NQk"
 // }
 
+
 function getFrontendElement(json_object){
     if(json_object.type === "image"){
-        insertImage()
+        insertImage(json_object);
     }
     else if(json_object.type === "words"){
         words()
@@ -51,12 +52,12 @@ function getFrontendElement(json_object){
 
 // chooseFunction()
 
-function insertImage() {
+function insertImage(object) {
     var element = document.createElement(object.tag);
     element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
-    element.setAttribute("height", "220px");
-    document.body.appendChild(element);
+    var preview = document.getElementById('preview');
+    preview.appendChild(element);
 
 }
 
@@ -65,7 +66,6 @@ function insertVideo(object) {
     element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
     element.setAttribute("height", "220px");
-    var preview = document.getElementById('preview');
     preview.appendChild(element);
     // return element
 }
@@ -78,7 +78,7 @@ function words() {
     element.style.fontFamily = "arial";
     element.style.textAlign = "center";
     element.style.fontSize = object.size;
-    document.body.appendChild(element);
+    preview.appendChild(element);
     element.appendChild(object2);
 }
 
@@ -104,7 +104,7 @@ function navbar(){
     list.style.fontFamily = "arial";
     list.style.textAlign = "right";
 
-    document.body.appendChild(list);
+    preview.appendChild(list);
     list.appendChild(ul);
     list.appendChild(ul2);
     list.appendChild(ul3);
