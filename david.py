@@ -23,7 +23,9 @@ navigation_bar_syn = ['navbar','navigation bar']
 video_syn = synonyms[12]['video'] + ['video', 'vidoe']
 map_syn = synonyms[13]['map'] + ['map', 'mp','amp']
 footer_syn = synonyms[14]['footer'] + ['footer','footre']
-size_syn = synonyms[15]['big'] + synonyms[16]['small'] + synonyms[17]['medium'] + ['small','big','small','smll','med','bg']
+big_syn = synonyms[15]['big'] + ['big','bg','large']
+small_syn = synonyms[16]['small'] + ['small','smll','smal']
+med_syn = synonyms[17]['medium'] + ['med','medium']
 
 def introduction():
 	return """Hello, I am %s. I just had a glass of wine.
@@ -81,8 +83,12 @@ def find_size(sentence):
     tokens = tokenized(sentence)
     size = ''
     for token in tokens:
-        if token in size_syn:
-            return token
+        if token in small_syn:
+            size = 'small'
+        if token in med_syn:
+            size = 'medium'
+        if token in big_syn:
+            size = 'large'
     return size
 
 def find_link(sentence):
