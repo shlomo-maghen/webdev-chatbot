@@ -36,26 +36,32 @@ function getFrontendElement(json_object){
     if(json_object.type === "image"){
         insertImage(json_object);
     }
-    else if(json_object.type === "words"){
-        words()
+    else if(json_object.type === "title"){
+        insertTitle(json_object)
     }
     else if(json_object.type === "navbar"){
-        navbar()
+        insertNavbar(json_object)
     }
     else if(json_object.type === "video"){
         insertVideo(json_object);
     }
-    else if(json_object.type === "images"){
-        insertImage()
+    else if(json_object.type === "button"){
+        insertButton(json_object)
+    }
+    else if(json_object.type === "paragraph"){
+        insertParagraph(json_object)
+    }
+    else if(json_object.type === "link"){
+        insertLink(json_object)
     }
 }
 
-getFrontendElement(json_object);
 
 function insertImage(object) {
     var element = document.createElement(object.tag);
     element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
+    element.setAttribute("align", "center");
     var preview = document.getElementById('preview');
     preview.appendChild(element);
 
@@ -64,16 +70,28 @@ function insertImage(object) {
 function insertVideo(object) {
     var element = document.createElement(object.tag);
     element.setAttribute("src", object.src);
-    element.setAttribute("width", "300px");
-    element.setAttribute("height", "220px");
+    element.setAttribute("width", "500px");
+    element.setAttribute("height", "350px");
+    element.setAttribute("align", "center");
     var preview = document.getElementById('preview');
     preview.appendChild(element);
 }
 
 
 
-function words(object) {
-    var element = document.createElement(object.tag);
+function insertTitle(object) {
+    var element = document.createElement("h1");
+    var object2 = document.createTextNode(object.innerHTML);
+    element.style.fontFamily = "arial";
+    element.style.textAlign = "center";
+    element.style.fontSize = object.size;
+    var preview = document.getElementById('preview');
+    preview.appendChild(element);
+    element.appendChild(object2);
+}
+
+function insertLink(object) {
+    var element = document.createElement("h1");
     var object2 = document.createTextNode(object.innerHTML);
     element.style.fontFamily = "arial";
     element.style.textAlign = "center";
@@ -85,7 +103,32 @@ function words(object) {
 
 
 
-function navbar(object){
+function insertParagraph(object) {
+    var element = document.createElement("p");
+    var object2 = document.createTextNode(object.innerHTML);
+    element.style.fontFamily = "arial";
+    element.style.textAlign = "center";
+    element.style.fontSize = object.size;
+    var preview = document.getElementById('preview');
+    preview.appendChild(element);
+    element.appendChild(object2);
+}
+
+
+function insertButton(object) {
+    var element = document.createElement("BUTTON");
+    var object2 = document.createTextNode(object.innerHTML);
+    element.style.fontFamily = "arial";
+    element.style.textAlign = "center";
+    element.style.fontSize = object.size;
+    var preview = document.getElementById('preview');
+    preview.appendChild(element);
+    element.appendChild(object2);
+}
+
+
+
+function insertNavbar(object){
     var list = document.createElement('UL');
     var ul = document.createElement('UL');
     var ul2 = document.createElement('UL');
