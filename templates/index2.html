@@ -12,7 +12,6 @@
 			user_input = $("#user_input").val();
 			chat_object["user_input"] = user_input;
 			user_input = $("#user_input").val('');
-			console.log(chat_object)
 			// if we need a field, add it to the chat object
 			if ("needs" in chat_object){
 				chat_object[chat_object["needs"]] = user_input;
@@ -24,6 +23,9 @@
 				dataType: 'json',
 				method: 'post',
 				success:function(data){
+					console.log('data received from server:');
+					console.log(data);
+
 					chatarea = document.getElementById("chatarea");
 					// add user message
 					$("#chatarea").append("<p class='user_message'>"+chat_object["user_input"]+"</p>");
@@ -32,7 +34,7 @@
 					// get alisas message
 					chat_object = data;
 					// append alisas message
-					setTimeout($("#chatarea").append("<p class='alisa'>"+chat_object["response"]+"</p>"), 5000);
+					$("#chatarea").append("<p class='alisa'>"+chat_object["response"]+"</p>");
 					// adjust scroll
 					chatarea.scrollTop = chatarea.scrollHeight
 					

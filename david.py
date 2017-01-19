@@ -4,6 +4,7 @@ import nltk
 from PyDictionary import PyDictionary
 import webcolors
 import json
+import urllib
 
 BOT_NAME = "ADINA"
 ###########################################################
@@ -93,9 +94,21 @@ def find_size(sentence):
             size = 'large'
     return size
 
-def find_link(sentence):
-	urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', sentence)
-	return urls
+
+def has_url(sentence):
+    tokens = tokenized(sentence)
+    for token in tokens:
+        print token
+        if '.' not in token or len(token) < 3:
+            continue
+        if "http" not in token:
+            token = "http://" + token
+        try:
+           urllib.urlopen(token)
+           return token
+        except:
+            continue
+    return False
 
 
 def failure():
@@ -103,14 +116,29 @@ def failure():
 
 
 def add_video(json_obj):
-	# the required fields for a video
 	fields = ["link"]
+	
+	sentence = json_obj["user_input"]
+	url = has_url(sentence)
+	
+	if url:
+		json_obj["link"] = url
+		json_obj["response"] = "Done. I added your video!"
+		json_obj["done"] = "true"
+		return json.dumps(json_obj)
+	
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
 			json_obj["function"] = "add_video"
 			json_obj["response"] = "What is the link to your video?"
 			return json.dumps(json_obj)
+		elif "link" in json_obj:
+			if not url:
+				json_obj["response"] = "That was not a valid link. Try again."
+				return json.dumps(json_obj)
+			else:
+				json_obj["link"] = url
 		else:
 			del json_obj["needs"]
 			del json_obj["function"]
