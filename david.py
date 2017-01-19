@@ -96,9 +96,8 @@ def find_size(sentence):
 
 
 def has_url(sentence):
-    tokens = tokenized(sentence)
+    tokens = sentence.split()
     for token in tokens:
-        print token
         if '.' not in token or len(token) < 3:
             continue
         if "http" not in token:
@@ -116,13 +115,16 @@ def failure():
 
 
 def add_video(json_obj):
-	fields = ["link"]
+	fields = ["src"]
 	
 	sentence = json_obj["user_input"]
 	url = has_url(sentence)
 	
+	json_obj["type"] = "video"
+	json_obj["tag"] = "iframe"
+
 	if url:
-		json_obj["link"] = url
+		json_obj["src"] = url
 		json_obj["response"] = "Done. I added your video!"
 		json_obj["done"] = "true"
 		return json.dumps(json_obj)
@@ -133,12 +135,12 @@ def add_video(json_obj):
 			json_obj["function"] = "add_video"
 			json_obj["response"] = "What is the link to your video?"
 			return json.dumps(json_obj)
-		elif "link" in json_obj:
+		elif "src" in json_obj:
 			if not url:
 				json_obj["response"] = "That was not a valid link. Try again."
 				return json.dumps(json_obj)
 			else:
-				json_obj["link"] = url
+				json_obj["src"] = url
 		else:
 			del json_obj["needs"]
 			del json_obj["function"]

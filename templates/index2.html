@@ -3,6 +3,7 @@
 	<title>alisa.ai</title>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index2.css')}}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='rebecca.js')}}"></script>
 	<script type="text/javascript">
 		// create empty chat object
 		chat_object = {"done": false};
@@ -39,7 +40,8 @@
 					chatarea.scrollTop = chatarea.scrollHeight
 					
 					if(data["done"] == 'true'){
-						console.log("adding this object");
+						getFrontendElement(chat_object);
+						// document.body.appendChild(element);
 						chat_object = {"done":false}
 					}
 				}
@@ -59,5 +61,6 @@
 			<input type='submit' value="Enter">
 		</form>
 	</div>
+	<div id="preview"></div>
 </body>
 </html>

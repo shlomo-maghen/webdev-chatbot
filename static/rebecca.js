@@ -1,55 +1,55 @@
-/**
- * Created by rebeccaemmerich on 1/18/17.
- */
+// /**
+//  * Created by rebeccaemmerich on 1/18/17.
+//  */
 
 
-var object = {
-    type: "images",
-    tag: "img",
-    src: "http://www.blueskycommunityhealingcentre.ca/wp-content/themes/risen/images/backgrounds/sun.jpg"
- }
-var object = {
-    type: "words",
-    tag: "p",
-    size: "small",
-    innerHTML: "HELLO"
- }
-var object = {
-    type: "words",
-    tag: "BUTTON",
-    innerHTML: "CLICK ME"
- }
-var object = {
-    type: "navbar",
-    tag: "ul",
-    src: "",
-    color: "green"
-}
-var object = {
-    type: "vid",
-    tag: "iframe",
-    src: "https://www.youtube.com/embed/4Ru2eei4NQk"
-}
+// var object = {
+//     type: "images",
+//     tag: "img",
+//     src: "http://www.blueskycommunityhealingcentre.ca/wp-content/themes/risen/images/backgrounds/sun.jpg"
+//  }
+// var object = {
+//     type: "words",
+//     tag: "p",
+//     size: "small",
+//     innerHTML: "HELLO"
+//  }
+// var object = {
+//     type: "words",
+//     tag: "BUTTON",
+//     innerHTML: "CLICK ME"
+//  }
+// var object = {
+//     type: "navbar",
+//     tag: "ul",
+//     src: "",
+//     color: "green"
+// }
+// var object = {
+//     type: "vid",
+//     tag: "iframe",
+//     src: "https://www.youtube.com/embed/4Ru2eei4NQk"
+// }
 
-function chooseFunction(){
-    if(object.type === "images" ){
+function getFrontendElement(json_object){
+    if(json_object.type === "image"){
         insertImage()
     }
-    else if(object.type === "words"){
+    else if(json_object.type === "words"){
         words()
     }
-    else if(object.type === "navbar"){
+    else if(json_object.type === "navbar"){
         navbar()
     }
-    else if(object.type === "vid"){
-        insertVideo()
+    else if(json_object.type === "video"){
+        insertVideo(json_object);
     }
-    else if(object.type === "images"){
+    else if(json_object.type === "images"){
         insertImage()
     }
 }
 
-chooseFunction()
+// chooseFunction()
 
 function insertImage() {
     var element = document.createElement(object.tag);
@@ -60,12 +60,14 @@ function insertImage() {
 
 }
 
-function insertVideo() {
+function insertVideo(object) {
     var element = document.createElement(object.tag);
     element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
     element.setAttribute("height", "220px");
-    document.body.appendChild(element);
+    var preview = document.getElementById('preview');
+    preview.appendChild(element);
+    // return element
 }
 
 
