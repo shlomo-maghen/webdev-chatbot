@@ -1,6 +1,6 @@
 import os
 
-os.system("say 'hello, i am Alisa, i just had a glass of wine, i will help you to build a website'")
+#os.system("say 'hello, i am Alisa, i just had a glass of wine, i will help you to build a website'")
 
 # import speech_recognition as sr
 #
@@ -20,3 +20,12 @@ os.system("say 'hello, i am Alisa, i just had a glass of wine, i will help you t
 #     print("Google Speech Recognition could not understand audio")
 # except sr.RequestError as e:
 #     print("Could not request results from Google Speech Recognition service; {0}".format(e))
+
+import pyttsx
+engine = pyttsx.init()
+voices = engine.getProperty('voices')
+for voice in voices:
+    print "Using voice:", repr(voice)
+    engine.setProperty('voice', voice.id)
+    engine.say('hello, i am Alisa, i just had a glass of wine, i will help you to build a website')
+engine.runAndWait()
