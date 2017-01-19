@@ -67,7 +67,6 @@ def get_element(json_obj):
 			return add_map(json_obj)
 		elif token in footer_syn:
 			return add_footer(json_obj)
-	print "failure"
 	return failure()
 
 
@@ -102,12 +101,11 @@ def add_video(json_obj):
 			json_obj["function"] = "add_video"
 			json_obj["response"] = "What is the link?"
 			return json.dumps(json_obj)
-		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Adding your element"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+	del json_obj["needs"]
+	del json_obj["function"]
+	json_obj["response"] = "Adding your element"
+	json_obj["done"] = "true"
+	return json.dumps(json_obj)
 
 
 
