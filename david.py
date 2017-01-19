@@ -41,31 +41,33 @@ def entities_tokens(tokens):
 
 
 def get_element(json_obj):
-	
+	if "function" in json_obj:
+		return globals()[json_obj["function"]](json_obj)
 	sentence = json_obj["chat_text"]
 	tokens = tokenized(sentence.lower())
-	print "analyzing: %s" % sentence
+	
 	for token in tokens:
 		if token in title_syn:
-			return add_title(sentence)
+			return add_title(json_obj)
 		elif token in image_syn:
-			return add_image(sentence)
+			return add_image(json_obj)
 		elif token in paragraph_syn:
-			return add_paragraph(sentence)
+			return add_paragraph(json_obj)
 		elif token in link_syn:
-			return add_link(sentence)
+			return add_link(json_obj)
 		elif token in button_syn:
-			return add_button(sentence)
+			return add_button(json_obj)
 		elif token in text_box_syn :
-			return add_text_box(sentence)
+			return add_text_box(json_obj)
 		elif token in navigation_bar_syn :
-			return add_navbar(sentence)
+			return add_navbar(json_obj)
 		elif token in video_syn:
-			return add_video(sentence)
+			return add_video(json_obj)
 		elif token in map_syn:
-			return add_map(sentence)
+			return add_map(json_obj)
 		elif token in footer_syn:
-			return add_footer(sentence)
+			return add_footer(json_obj)
+	print "failure"
 	return failure()
 
 
@@ -80,7 +82,7 @@ def color_find_attributes(token,tokens):
 	return 0
 
 def failure():
-	return "I didnt understand that."
+	return json.dumps({"response": "I am sorry, I did not understand, it might be the wine..."})
 	
 def add_text_box(sentence):
 	return 0
@@ -91,24 +93,22 @@ def add_map(sentence):
 def add_footer(sentence):
 	return 0
 
-def add_video(sentence):
-	# if sentence doesnt have link
-	return json.dumps({"done": "false", "response": "What is the link?"})
+def add_video(json_obj):
+	# the required fields for a video
+	fields = ["link"]
+	for field in fields:
+		if field not in json_obj:
+			json_obj["needs"] = field
+			json_obj["function"] = "add_video"
+			json_obj["response"] = "What is the link?"
+			return json.dumps(json_obj)
+		else:
+			del json_obj["needs"]
+			del json_obj["function"]
+			json_obj["response"] = "Adding your element"
+			json_obj["done"] = "true"
+			return json.dumps(json_obj)
 
-
-# def color_find_attributes(token,tokens):
-# 	color = ''
-# 	for token in tokens:
-# 		if token in webcolors.CSS3_NAMES_TO_HEX:
-# 			color = webcolors.name_to_hex(token)
-# 	if color == '':
-# 		ask_color()
-# 	# find the parameters
-# 	return 0
-
-
-def failure():
-	return 'I am sorry, I did not understand, it might be the wine...'
 
 
 def add_text_box(sentence):
