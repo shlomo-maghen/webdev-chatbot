@@ -91,11 +91,12 @@ function insertTitle(object) {
 }
 
 function insertLink(object) {
-    var element = document.createElement("h1");
-    var object2 = document.createTextNode(object.innerHTML);
+    var element = document.createElement("a");
+    var object2 = document.createTextNode(object.href);
     element.style.fontFamily = "arial";
     element.style.textAlign = "center";
     element.style.fontSize = object.size;
+    element.setAttribute("href", object.href);
     var preview = document.getElementById('preview');
     preview.appendChild(element);
     element.appendChild(object2);

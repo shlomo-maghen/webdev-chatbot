@@ -293,14 +293,16 @@ def add_button(json_obj):
 
 
 def add_link(json_obj):
+		# required fields
 	fields = ["href"]
-	json_obj["type"] = "link"
-	json_obj["tag"] = "a"
-	json_obj["function"] = "add_link"
 	
 	sentence = json_obj["user_input"]
 	url = has_url(sentence)
 	
+	json_obj["type"] = "link"
+	json_obj["tag"] = "a"
+	json_obj["function"] = "add_link"
+
 	if url:
 		json_obj["href"] = url
 		json_obj["response"] = "You have created a portal to another site!"
@@ -310,19 +312,54 @@ def add_link(json_obj):
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
-			json_obj["response"] = "What link would you like to add?"
+			json_obj["response"] = "What is the url for the link?"
 			return json.dumps(json_obj)
-		elif "href" in json_obj:
+		elif "src" in json_obj:
 			if not url:
 				json_obj["response"] = "That was not a valid link. Try again."
 				return json.dumps(json_obj)
 			else:
 				json_obj["href"] = url
-		# else:
-		new_object = {"type":"link", "tag": "a", "href": url,
-						"done": "true", "response": "There is now a path to another site on your site. META!"}
+		else:
+			new_object = {"done": "true", "tag": "a", "type": "link",
+				"href": url, "response": "There is now a path to another site on your site. META!"}
+			# del json_obj["needs"]
+			# del json_obj["function"]
+			# json_obj["response"] = "Done. I added your video!"
+			# json_obj["done"] = "true"
+			return json.dumps(new_object)
 
-		return json.dumps(new_object)
+
+	# fields = ["href"]
+	# json_obj["type"] = "link"
+	# json_obj["tag"] = "a"
+	# json_obj["function"] = "add_link"
+	
+	# sentence = json_obj["user_input"]
+	# url = has_url(sentence)
+	
+	# if url:
+	# 	json_obj["href"] = url
+	# 	json_obj["response"] = "You have created a portal to another site!"
+	# 	json_obj["done"] = "true"
+	# 	return json.dumps(json_obj)
+	
+	# for field in fields:
+	# 	if field not in json_obj:
+	# 		json_obj["needs"] = field
+	# 		json_obj["response"] = "What link would you like to add?"
+	# 		return json.dumps(json_obj)
+	# 	elif "href" in json_obj:
+	# 		if not url:
+	# 			json_obj["response"] = "That was not a valid link. Try again."
+	# 			return json.dumps(json_obj)
+	# 		else:
+	# 			json_obj["href"] = url
+	# 	# else:
+	# 	new_object = {"type":"link", "tag": "a", "href": url,
+	# 					"done": "true", "response": "There is now a path to another site on your site. META!"}
+
+	# 	return json.dumps(new_object)
 
 
 def get_input_from_user(text):
