@@ -2,34 +2,54 @@
  * Created by rebeccaemmerich on 1/18/17.
  */
 
+
 var object = {
     type: "images",
     tag: "img",
     src: "http://www.blueskycommunityhealingcentre.ca/wp-content/themes/risen/images/backgrounds/sun.jpg"
-}
-var text = {
+ }
+var object = {
     type: "words",
     tag: "p",
     size: "small",
     innerHTML: "HELLO"
-}
-var btn = {
+ }
+var object = {
     type: "words",
     tag: "BUTTON",
     innerHTML: "CLICK ME"
-}
-var nav = {
+ }
+var object = {
     type: "navbar",
     tag: "ul",
     src: "",
     color: "green"
 }
-var vid = {
+var object = {
     type: "vid",
     tag: "iframe",
     src: "https://www.youtube.com/embed/4Ru2eei4NQk"
 }
 
+function chooseFunction(){
+    if(object.type === "images" ){
+        insertImage()
+    }
+    else if(object.type === "words"){
+        words()
+    }
+    else if(object.type === "navbar"){
+        navbar()
+    }
+    else if(object.type === "vid"){
+        insertVideo()
+    }
+    else if(object.type === "images"){
+        insertImage()
+    }
+}
+
+chooseFunction()
 
 function insertImage() {
     var element = document.createElement(object.tag);
@@ -39,40 +59,28 @@ function insertImage() {
     document.body.appendChild(element);
 
 }
-insertImage();
+
 function insertVideo() {
-    var element = document.createElement(vid.tag);
-    element.setAttribute("src", vid.src);
+    var element = document.createElement(object.tag);
+    element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
     element.setAttribute("height", "220px");
     document.body.appendChild(element);
 }
-insertVideo();
+
 
 
 function words() {
-    var element = document.createElement(text.tag);
-    var object2 = document.createTextNode(text.innerHTML);
-    element.style.fontFamily="arial";
-    element.style.textAlign= "center";
-    element.style.fontSize = text.size;
+    var element = document.createElement(object.tag);
+    var object2 = document.createTextNode(object.innerHTML);
+    element.style.fontFamily = "arial";
+    element.style.textAlign = "center";
+    element.style.fontSize = object.size;
     document.body.appendChild(element);
     element.appendChild(object2);
 }
 
-words();
 
-
-function button() {
-    var element = document.createElement(btn.tag);
-    var object2 = document.createTextNode(btn.innerHTML);
-    element.style.fontFamily="arial";
-    element.style.textAlign= "center";
-    document.body.appendChild(element);
-    element.appendChild(object2);
-}
-
-button();
 
 function navbar(){
     var list = document.createElement('UL');
@@ -88,7 +96,7 @@ function navbar(){
     ul2.style.display= "inline-block";
     ul3.style.display= "inline-block";
     ul4.style.display ="inline-block";
-    list.style.backgroundColor = nav.color;
+    list.style.backgroundColor = object.color;
     list.style.paddingTop = "15px";
     list.style.paddingBottom = "15px";
     list.style.fontFamily = "arial";
@@ -105,6 +113,5 @@ function navbar(){
     ul4.appendChild(object5);
 }
 
-navbar();
 
 
