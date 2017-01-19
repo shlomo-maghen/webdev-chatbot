@@ -25,7 +25,7 @@
 //     src: "",
 //     color: "green"
 // }
-// var object = {
+// var json_object = {
 //     type: "vid",
 //     tag: "iframe",
 //     src: "https://www.youtube.com/embed/4Ru2eei4NQk"
@@ -50,7 +50,7 @@ function getFrontendElement(json_object){
     }
 }
 
-// chooseFunction()
+getFrontendElement(json_object);
 
 function insertImage(object) {
     var element = document.createElement(object.tag);
@@ -66,25 +66,26 @@ function insertVideo(object) {
     element.setAttribute("src", object.src);
     element.setAttribute("width", "300px");
     element.setAttribute("height", "220px");
+    var preview = document.getElementById('preview');
     preview.appendChild(element);
-    // return element
 }
 
 
 
-function words() {
+function words(object) {
     var element = document.createElement(object.tag);
     var object2 = document.createTextNode(object.innerHTML);
     element.style.fontFamily = "arial";
     element.style.textAlign = "center";
     element.style.fontSize = object.size;
+    var preview = document.getElementById('preview');
     preview.appendChild(element);
     element.appendChild(object2);
 }
 
 
 
-function navbar(){
+function navbar(object){
     var list = document.createElement('UL');
     var ul = document.createElement('UL');
     var ul2 = document.createElement('UL');
@@ -104,6 +105,7 @@ function navbar(){
     list.style.fontFamily = "arial";
     list.style.textAlign = "right";
 
+    var preview = document.getElementById('preview');
     preview.appendChild(list);
     list.appendChild(ul);
     list.appendChild(ul2);
