@@ -1,0 +1,9 @@
+body{margin: 0; padding: 0;}
+
+#chat{width: 25%; max-width: 300px; height: 100%; padding: 15px; border-right: 1px solid black;}
+#chatarea{width: 100%; display: flex; flex-direction: column; height: 90%; overflow-y: auto}
+#chat form{	position: absolute; bottom: 0;}
+
+p.user_message{text-align: right;}
+p.alisa{text-align: left;}
+p.message{width: 100%;}
