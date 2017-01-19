@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>WebaLisa</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">    
-    <link href="css/main.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/logo/logoAlisaFinal.png">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='main.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{url_for('static', filename='logoAlisaFinal.png')}}">
 
 </head>
 <body>
 
 <div class="long element" id="mainChat">
     <p class="talkingTo">
-        <a><img src="images/logo/logoAlisaFinal.png" alt="Logo Alisa"></a>
+        <a><img src="{{url_for('static', filename='logoAlisaFinal.png')}}" alt="Logo Alisa"></a>
     </p>
 
     <div id="startFirst" class="messageContainer, none">
@@ -35,9 +36,9 @@
     </div>
 
     <div class="user-discussion">
-        <form id="conversation-form" class="discussion" name="conversation-form" method="post" action="">
+        <form class="discussion" name="conversation-form" onsubmit="my_function(); return false;">
             <div class="form-group userEnter field">
-                <input type="text" name="conversation" class="form-control name-field"
+                <input type="text" name="conversation" id="chat_text" class="form-control name-field"
                        placeholder="What do you want to do ?">
             </div>
             <div class="form-group userEnter send">
@@ -50,8 +51,10 @@
 
 
 <div class="long element" id="websitePreview"></div>
-<script type = "text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!-- 
+<script type = "text/javascript" src="js/main.js"></script>-->
+<script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='chatbot.js')}}"></script>
 </body>
 </html>
