@@ -99,7 +99,7 @@ def add_video(json_obj):
 
 
 def add_map(json_obj):
-	# the required fields for a video
+	# the required fields for a map
 	fields = ["location"]
 	for field in fields:
 		if field not in json_obj:
