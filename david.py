@@ -1,4 +1,5 @@
 import os
+import re
 import nltk
 from PyDictionary import PyDictionary
 import webcolors
@@ -10,23 +11,24 @@ BOT_NAME = "ADINA"
 #   Author: David Moyal / Shlomo Maghen / Samuel Jefroykin
 #   Last updated : 01/18/2017
 ###########################################################
-dictionary = PyDictionary('headline', 'title', 'image', 'picture', 'paragraph', 'text', 'url-link', 'link', 'access', 'redirection', 'button', 'box', 'video', 'map', 'footer')
+dictionary = PyDictionary('headline', 'title', 'image', 'picture', 'paragraph', 'text', 'url-link', 'link', 'access', 'redirection', 'button', 'box', 'video', 'map', 'footer','big','small','medium')
 
 synonyms = dictionary.getSynonyms()
-title_syn = synonyms[1]['title'] + synonyms[0]['headline'] + ['headline', 'title', 'name']
-image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image', 'picture']
-paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', 'text']
-link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection']
-button_syn = synonyms[10]['button'] + ['button']
+title_syn = synonyms[1]['title'] + synonyms[0]['headline'] + ['headline', 'title', 'name', 'haedline', 'tilte', 'tile']
+image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image', 'picture' , 'img','pic','imge']
+paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', 'text' , 'txt' , 'par', 'texte']
+link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection' , 'lnk']
+button_syn = synonyms[10]['button'] + ['button' , 'buton','buttn']
 navigation_bar_syn = ['navbar','navigation bar']
-video_syn = synonyms[12]['video'] + ['video']
-map_syn = synonyms[13]['map'] + ['map']
-footer_syn = synonyms[14]['footer'] + ['footer']
+video_syn = synonyms[12]['video'] + ['video', 'vidoe']
+map_syn = synonyms[13]['map'] + ['map', 'mp','amp']
+footer_syn = synonyms[14]['footer'] + ['footer','footre']
+size_syn = synonyms[15]['big'] + synonyms[16]['small'] + synonyms[17]['medium'] + ['small','big','small','smll','med','bg']
 
 
 def introduction():
-	return """Hello, I am %s. I just had a glass of wine. 
-				I am here to help you build a website. 
+	return """Hello, I am %s. I just had a glass of wine.
+				I am here to help you build a website.
 				Should we start?" % BOT_NAME"""
 
 def tokenized(sentence):
@@ -43,9 +45,9 @@ def entities_tokens(tokens):
 def get_element(json_obj):
 	if "function" in json_obj:
 		return globals()[json_obj["function"]](json_obj)
-	sentence = json_obj["chat_text"]
+	sentence = json_obj["user_input"]
 	tokens = tokenized(sentence.lower())
-	
+
 	for token in tokens:
 		if token in title_syn:
 			return add_title(json_obj)
@@ -68,15 +70,25 @@ def get_element(json_obj):
 	return failure()
 
 
-def color_find_attributes(token,tokens):
+def find_color(sentence):
+	tokens = tokenized(sentence)
 	color = ''
 	for token in tokens:
 		if token in webcolors.CSS3_NAMES_TO_HEX:
 			color = webcolors.name_to_hex(token)
-	if color == '':
-		ask_color()
-	# find the parameters
-	return 0
+	return color
+
+def find_size(sentence):
+    tokens = tokenized(sentence)
+    size = ''
+    for token in tokens:
+        if token in size_syn:
+            return token
+    return size
+
+def find_link(sentence):
+	urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', sentence)
+	return urls
 
 
 def failure():
