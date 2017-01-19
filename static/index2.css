@@ -1,11 +1,113 @@
 body{margin: 0; padding: 0;}
 
-#chat{width: 25%; max-width: 300px; height: 100%; padding: 15px; border-right: 1px solid black;}
-#chatarea{width: 100%; display: flex; flex-direction: column; height: 90%; overflow-y: auto}
-#chat form{	position: absolute; bottom: 0;}
-#preview{width: 70%; height: 100%; padding: 15px; }
+#chat{
+    /*width: 25%;*/
+    /*max-width: 300px;*/
+    /*height: 100%;*/
+    /*padding: 15px;*/
+    /*border-right: 1px solid black;*/
+    /*position: relative;*/
+    /*float: left;*/
+    /*position: relative;*/
+    float: left;
+    height: 100%;
+    overflow-y: scroll;
+    margin-top: 0;
+}
+#chatarea{
+    width: 352px;
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    overflow-y: auto}
+
+#chat form{
+    position: absolute;
+    bottom: 0;
+    left: 88px;
+}
+
+#preview{
+    width: 70%;
+    height: 100%;
+    padding: 15px; }
 
 
-p.user_message{text-align: right;}
-p.alisa{text-align: left;}
-p.message{width: 100%;}
+p.user_message{
+    text-align: right;
+    padding: 3px 12px;
+    font-size: 16px;
+    line-height: 24px;
+    display: inline-block;
+    max-width: 300px;
+    background: #FFD1DC;
+    border-radius: 15px;
+    clear: both;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+p.alisa{
+    text-align: left;
+      width: 100%;
+    padding: 3px 12px;
+    font-size: 16px;
+    line-height: 24px;
+    display: inline-block;
+    max-width: 300px;
+    background: #eee;
+    border-radius: 15px;
+    clear: both;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+p.message{
+    width: 100%;
+    text-align: left;
+    padding: 3px 12px;
+    font-size: 16px;
+    line-height: 24px;
+    display: inline-block;
+    max-width: 300px;
+    background: #eee;
+    border-radius: 15px;
+    clear: both;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.talkingTo {
+    display: inline-block;
+    height: 80px;
+    position: fixed;
+    width: 29%;
+    background: #A8E4FF;
+    top: 0px;
+    z-index: 100;
+    left: 0;
+    border-bottom: 1px solid #A8E4FF;
+    border-radius: 15px;
+}
+.talkingTo img {
+    height: 100%;
+    transform: scale(0.85);
+    margin-top: 2px;
+}
+.long{
+    transition: all 1s;
+    /*height: calc(100vh - 192px);*/
+    /*width: calc(30vw - 17px);*/
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 5px;
+    background: #fff;
+    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 0;
+    margin-top: 50px;
+}
+.element {
+    padding: 160px 0;
+    clear: both;
+}
