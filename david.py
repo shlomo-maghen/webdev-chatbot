@@ -23,6 +23,7 @@ video_syn = synonyms[12]['video'] + ['video']
 map_syn = synonyms[13]['map'] + ['map']
 footer_syn = synonyms[14]['footer'] + ['footer']
 
+
 def introduction():
 	return """Hello, I am %s. I just had a glass of wine. 
 				I am here to help you build a website. 
@@ -76,6 +77,7 @@ def color_find_attributes(token,tokens):
 		ask_color()
 	# find the parameters
 	return 0
+
 
 def failure():
 	return json.dumps({"response": "I am sorry, I did not understand, it might be the wine..."})
