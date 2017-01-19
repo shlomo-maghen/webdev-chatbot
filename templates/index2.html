@@ -1,0 +1,61 @@
+<html>
+<head>
+	<title>alisa.ai</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index2.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		// create empty chat object
+		chat_object = {"done": false};
+		$("#user_input").focus();
+		var send = function(){
+			// get the sentence the user typed
+			user_input = $("#user_input").val();
+			chat_object["user_input"] = user_input;
+			user_input = $("#user_input").val('');
+			console.log(chat_object)
+			// if we need a field, add it to the chat object
+			if ("needs" in chat_object){
+				chat_object[chat_object["needs"]] = user_input;
+			}
+			//make request
+			$.get({
+				url: "/get_response/",
+				data: JSON.stringify(chat_object),
+				dataType: 'json',
+				method: 'post',
+				success:function(data){
+					chatarea = document.getElementById("chatarea");
+					// add user message
+					$("#chatarea").append("<p class='user_message'>"+chat_object["user_input"]+"</p>");
+					// adjust scroll
+					chatarea.scrollTop = chatarea.scrollHeight
+					// get alisas message
+					chat_object = data;
+					// append alisas message
+					setTimeout($("#chatarea").append("<p class='alisa'>"+chat_object["response"]+"</p>"), 5000);
+					// adjust scroll
+					chatarea.scrollTop = chatarea.scrollHeight
+					
+					if(data["done"] == 'true'){
+						console.log("adding this object");
+						chat_object = {"done":false}
+					}
+				}
+			});
+			return false;
+		}
+	</script>
+</head>
+<body>
+	<div id='chat'>
+		<div id="chatarea">
+			<p class="alisa message">Let's build a site</p>
+			<p class="user_message message">Make me a site</p>
+		</div>
+		<form onsubmit='send(); return false;'>
+			<input type='text' id='user_input'>
+			<input type='submit' value="Enter">
+		</form>
+	</div>
+</body>
+</html>

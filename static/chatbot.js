@@ -1,5 +1,6 @@
 // create empty chat object
-chat_object = {"done":false}
+chat_object = {"done":false};
+console.log(chat_object);
 var my_function = function(){
 	// get the sentence the user typed
 	user_input = $("#chat_text").val();

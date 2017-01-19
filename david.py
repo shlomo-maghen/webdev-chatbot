@@ -42,7 +42,7 @@ def entities_tokens(tokens):
 def get_element(json_obj):
 	if "function" in json_obj:
 		return globals()[json_obj["function"]](json_obj)
-	sentence = json_obj["chat_text"]
+	sentence = json_obj["user_input"]
 	tokens = tokenized(sentence.lower())
 	
 	for token in tokens:
