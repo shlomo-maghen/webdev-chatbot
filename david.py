@@ -216,11 +216,13 @@ def add_navbar(json_obj):
 			json_obj["response"] = "What color do you want for the navbar?"
 			return json.dumps(json_obj)
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "You've got a nice navigation bar now!"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			# del json_obj["needs"]
+			# del json_obj["function"]
+			new_object = {"type":"navbar", "tag": "ul", "color": json_obj["src"],
+				"done": "true", "response": "You've got a nice navigation bar now!"}
+			# json_obj["response"] = "You've got a nice navigation bar now!"
+			# json_obj["done"] = "true"
+			return json.dumps(new_object)
 
 
 def add_image(json_obj):
@@ -250,11 +252,14 @@ def add_image(json_obj):
 			else:
 				json_obj["src"] = url
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Your website is now more vivid!"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			new_object = {"type":"image", "tag": "img", "src": json_obj["src"],
+							"done": "true", "response": "Your website is now more vivid!"}
+			# del json_obj["needs"]
+			# del json_obj["function"]
+			# json_obj["response"] = "Your website is now more vivid!"
+			# json_obj["done"] = "true"
+			return json.dumps(new_object)
+	
 	# the required fields for an image
 	# fields = ["link"]
 	# for field in fields:
@@ -281,11 +286,9 @@ def add_paragraph(json_obj):
 			json_obj["response"] = "What is the text for your paragraph?"
 			return json.dumps(json_obj)
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Yeah, it's better than Lorem Ipsum. Paragraph added."
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			new_object = {"tag": "p", "type":"words", "done":"true", 
+				"innerHTML": json_obj["text"], "response": "Yeah, it's better than Lorem Ipsum. Paragraph added."}
+			return json.dumps(new_object)
 
 
 def add_button(json_obj):
@@ -298,28 +301,42 @@ def add_button(json_obj):
 			json_obj["response"] = "What is the text for the button?"
 			return json.dumps(json_obj)
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Damn, I want to click on that button!"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			new_object = {"tag": "button", "type":"words", "done":"true", 
+				"innerHTML": json_obj["text"], "response": "Damn, I want to click on that button!"}
+			return json.dumps(new_object)
 
 
 def add_link(json_obj):
-	# the required fields for a link
-	fields = ["link"]
+	fields = ["href"]
+	json_obj["type"] = "link"
+	json_obj["tag"] = "a"
+	json_obj["function"] = "add_link"
+	
+	sentence = json_obj["user_input"]
+	url = has_url(sentence)
+	
+	if url:
+		json_obj["href"] = url
+		json_obj["response"] = "You have created a portal to another site!"
+		json_obj["done"] = "true"
+		return json.dumps(json_obj)
+	
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
-			json_obj["function"] = "add_link"
-			json_obj["response"] = "What is the link you want to add?"
+			json_obj["response"] = "What link would you like to add?"
 			return json.dumps(json_obj)
+		elif "href" in json_obj:
+			if not url:
+				json_obj["response"] = "That was not a valid link. Try again."
+				return json.dumps(json_obj)
+			else:
+				json_obj["href"] = url
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "Link linked! Kuddoz"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
+			new_object = {"type":"link", "tag": "a", "src": json_obj["href"],
+							"done": "true", "response": "There is now a path to another site on your site. META!"}
+
+			return json.dumps(new_object)
 
 
 def get_input_from_user(text):
