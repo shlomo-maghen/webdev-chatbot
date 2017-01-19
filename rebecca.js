@@ -3,19 +3,33 @@
  */
 
 var object = {
+    type: "images",
     tag: "img",
     src: "http://www.blueskycommunityhealingcentre.ca/wp-content/themes/risen/images/backgrounds/sun.jpg"
 }
-var title = {
-    tag: "h1",
+var text = {
+    type: "words",
+    tag: "p",
+    size: "small",
     innerHTML: "HELLO"
 }
+var btn = {
+    type: "words",
+    tag: "BUTTON",
+    innerHTML: "CLICK ME"
+}
 var nav = {
-    func: "navbar",
+    type: "navbar",
     tag: "ul",
     src: "",
-    innerHTML: ["Home", "News", "About", "Contact Us"]
+    color: "green"
 }
+var vid = {
+    type: "vid",
+    tag: "iframe",
+    src: "https://www.youtube.com/embed/4Ru2eei4NQk"
+}
+
 
 function insertImage() {
     var element = document.createElement(object.tag);
@@ -25,12 +39,23 @@ function insertImage() {
     document.body.appendChild(element);
 
 }
-
 insertImage();
+function insertVideo() {
+    var element = document.createElement(vid.tag);
+    element.setAttribute("src", vid.src);
+    element.setAttribute("width", "300px");
+    element.setAttribute("height", "220px");
+    document.body.appendChild(element);
+}
+insertVideo();
+
 
 function words() {
-    var element = document.createElement(title.tag);
-    var object2 = document.createTextNode(title.innerHTML);
+    var element = document.createElement(text.tag);
+    var object2 = document.createTextNode(text.innerHTML);
+    element.style.fontFamily="arial";
+    element.style.textAlign= "center";
+    element.style.fontSize = text.size;
     document.body.appendChild(element);
     element.appendChild(object2);
 }
@@ -38,24 +63,36 @@ function words() {
 words();
 
 
+function button() {
+    var element = document.createElement(btn.tag);
+    var object2 = document.createTextNode(btn.innerHTML);
+    element.style.fontFamily="arial";
+    element.style.textAlign= "center";
+    document.body.appendChild(element);
+    element.appendChild(object2);
+}
+
+button();
+
 function navbar(){
     var list = document.createElement('UL');
     var ul = document.createElement('UL');
     var ul2 = document.createElement('UL');
     var ul3 = document.createElement('UL');
     var ul4 = document.createElement('UL')
-    var object2 = document.createTextNode(nav.innerHTML[0]);
-    var object3 = document.createTextNode(nav.innerHTML[1]);
-    var object4 = document.createTextNode(nav.innerHTML[2]);
-    var object5 = document.createTextNode(nav.innerHTML[3]);
+    var object2 = document.createTextNode("Info");
+    var object3 = document.createTextNode("About us");
+    var object4 = document.createTextNode("News");
+    var object5 = document.createTextNode("Contact us");
     ul.style.display= "inline-block";
     ul2.style.display= "inline-block";
     ul3.style.display= "inline-block";
     ul4.style.display ="inline-block";
-    list.style.backgroundColor = "lightcyan";
+    list.style.backgroundColor = nav.color;
     list.style.paddingTop = "15px";
     list.style.paddingBottom = "15px";
     list.style.fontFamily = "arial";
+    list.style.textAlign = "right";
 
     document.body.appendChild(list);
     list.appendChild(ul);
@@ -69,4 +106,5 @@ function navbar(){
 }
 
 navbar();
+
 
