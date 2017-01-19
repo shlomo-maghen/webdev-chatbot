@@ -25,6 +25,7 @@ map_syn = synonyms[13]['map'] + ['map', 'mp','amp']
 footer_syn = synonyms[14]['footer'] + ['footer','footre']
 size_syn = synonyms[15]['big'] + synonyms[16]['small'] + synonyms[17]['medium'] + ['small','big','small','smll','med','bg']
 
+
 def introduction():
 	return """Hello, I am %s. I just had a glass of wine.
 				I am here to help you build a website.
@@ -88,6 +89,7 @@ def find_size(sentence):
 def find_link(sentence):
 	urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', sentence)
 	return urls
+
 
 def failure():
 	return json.dumps({"response": "I am sorry, I did not understand, it might be the wine..."})
