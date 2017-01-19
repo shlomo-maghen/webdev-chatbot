@@ -3,6 +3,7 @@
 	<title>alisa.ai</title>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index2.css')}}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='rebecca.js')}}"></script>
 	<script type="text/javascript">
 		// create empty chat object
 		chat_object = {"done": false};
@@ -12,7 +13,6 @@
 			user_input = $("#user_input").val();
 			chat_object["user_input"] = user_input;
 			user_input = $("#user_input").val('');
-			console.log(chat_object)
 			// if we need a field, add it to the chat object
 			if ("needs" in chat_object){
 				chat_object[chat_object["needs"]] = user_input;
@@ -24,6 +24,9 @@
 				dataType: 'json',
 				method: 'post',
 				success:function(data){
+					console.log('data received from server:');
+					console.log(data);
+
 					chatarea = document.getElementById("chatarea");
 					// add user message
 					$("#chatarea").append("<p class='user_message'>"+chat_object["user_input"]+"</p>");
@@ -32,12 +35,12 @@
 					// get alisas message
 					chat_object = data;
 					// append alisas message
-					setTimeout($("#chatarea").append("<p class='alisa'>"+chat_object["response"]+"</p>"), 5000);
+					$("#chatarea").append("<p class='alisa'>"+chat_object["response"]+"</p>");
 					// adjust scroll
 					chatarea.scrollTop = chatarea.scrollHeight
 					
 					if(data["done"] == 'true'){
-						console.log("adding this object");
+						getFrontendElement(chat_object);
 						chat_object = {"done":false}
 					}
 				}
@@ -57,5 +60,6 @@
 			<input type='submit' value="Enter">
 		</form>
 	</div>
+	<div id="preview"></div>
 </body>
 </html>
