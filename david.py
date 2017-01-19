@@ -20,7 +20,7 @@ image_syn = synonyms[2]['image'] + synonyms[3]['picture'] + ['image', 'picture' 
 paragraph_syn = synonyms[4]['paragraph'] + synonyms[5]['text'] + ['paragraph', 'text' , 'txt' , 'par', 'texte']
 link_syn = synonyms[6]['url-link'] + synonyms[7]['link'] + synonyms[8]['access'] + synonyms[9]['redirection'] + ['link', 'url link' , 'access', 'redirection' , 'lnk']
 button_syn = synonyms[10]['button'] + ['button' , 'buton','buttn']
-navigation_bar_syn = ['navbar','navigation bar']
+navigation_bar_syn = ['navbar', 'navigation bar', 'nav bar']
 video_syn = synonyms[12]['video'] + ['video', 'vidoe']
 map_syn = synonyms[13]['map'] + ['map', 'mp','amp']
 footer_syn = synonyms[14]['footer'] + ['footer','footre']
@@ -74,13 +74,12 @@ def get_element(json_obj):
 	return failure()
 
 
-def find_color(sentence):
+def has_color(sentence):
 	tokens = tokenized(sentence)
-	color = ''
 	for token in tokens:
 		if token in webcolors.CSS3_NAMES_TO_HEX:
-			color = webcolors.name_to_hex(token)
-	return color
+			return webcolors.name_to_hex(token)
+	return False
 
 def find_size(sentence):
     tokens = tokenized(sentence)
@@ -199,30 +198,35 @@ def add_title(json_obj):
 			json_obj["response"] = "What title would you like?"
 			return json.dumps(json_obj)
 		else:
-			del json_obj["needs"]
-			del json_obj["function"]
-			json_obj["response"] = "What a good title!"
-			json_obj["done"] = "true"
-			return json.dumps(json_obj)
-
+			new_object = {"type":"title", "tag": "h1", "innerHTML":json_obj["user_input"],
+				"done": "true", "response": "Great Title!!"}
+			return json.dumps(new_object)
 
 def add_navbar(json_obj):
 	# the required fields for a navbar
+
 	fields = ["color"]
+	color = has_color(json_obj["user_input"])
+	if color:
+		new_object = {"type":"navbar", "tag": "ul", "color": color,
+					"done": "true", "response": "You've got a nice navigation bar now!"}
+		return json.dumps(new_object)
+
 	for field in fields:
 		if field not in json_obj:
 			json_obj["needs"] = field
 			json_obj["function"] = "add_navbar"
 			json_obj["response"] = "What color do you want for the navbar?"
 			return json.dumps(json_obj)
-		else:
-			# del json_obj["needs"]
-			# del json_obj["function"]
-			new_object = {"type":"navbar", "tag": "ul", "color": json_obj["src"],
-				"done": "true", "response": "You've got a nice navigation bar now!"}
-			# json_obj["response"] = "You've got a nice navigation bar now!"
-			# json_obj["done"] = "true"
-			return json.dumps(new_object)
+		elif "color" in json_obj:
+			color = has_color(json_obj["user_input"])
+			if color:
+				new_object = {"type":"navbar", "tag": "ul", "color": color,
+					"done": "true", "response": "You've got a nice navigation bar now!"}
+				return json.dumps(new_object)
+			else:
+				json_obj["response"] = "I didn't understand that color. Try again."
+				return json.dumps(json_obj)
 
 
 def add_image(json_obj):
@@ -254,27 +258,8 @@ def add_image(json_obj):
 		else:
 			new_object = {"type":"image", "tag": "img", "src": json_obj["src"],
 							"done": "true", "response": "Your website is now more vivid!"}
-			# del json_obj["needs"]
-			# del json_obj["function"]
-			# json_obj["response"] = "Your website is now more vivid!"
-			# json_obj["done"] = "true"
-			return json.dumps(new_object)
-	
-	# the required fields for an image
-	# fields = ["link"]
-	# for field in fields:
-	# 	if field not in json_obj:
-	# 		json_obj["needs"] = field
-	# 		json_obj["function"] = "add_image"
-	# 		json_obj["response"] = "What is the link to your image?"
-	# 		return json.dumps(json_obj)
-	# 	else:
-	# 		del json_obj["needs"]
-	# 		del json_obj["function"]
-	# 		json_obj["response"] = "Your website is now more vivid ;)"
-	# 		json_obj["done"] = "true"
-	# 		return json.dumps(json_obj)
 
+			return json.dumps(new_object)
 
 def add_paragraph(json_obj):
 	# the required fields for a paragraph
@@ -286,8 +271,9 @@ def add_paragraph(json_obj):
 			json_obj["response"] = "What is the text for your paragraph?"
 			return json.dumps(json_obj)
 		else:
-			new_object = {"tag": "p", "type":"words", "done":"true", 
-				"innerHTML": json_obj["text"], "response": "Yeah, it's better than Lorem Ipsum. Paragraph added."}
+			new_object = {"tag": "p", "type":"paragraph", "done":"true", 
+				"innerHTML": json_obj["user_input"], "response": "Yeah, it's better than Lorem Ipsum. Paragraph added."}
+			print new_object
 			return json.dumps(new_object)
 
 
@@ -301,8 +287,8 @@ def add_button(json_obj):
 			json_obj["response"] = "What is the text for the button?"
 			return json.dumps(json_obj)
 		else:
-			new_object = {"tag": "button", "type":"words", "done":"true", 
-				"innerHTML": json_obj["text"], "response": "Damn, I want to click on that button!"}
+			new_object = {"tag": "BUTTON", "type":"button", "done":"true", 
+				"innerHTML": json_obj["user_input"], "response": "Damn, I want to click on that button!"}
 			return json.dumps(new_object)
 
 
@@ -332,11 +318,11 @@ def add_link(json_obj):
 				return json.dumps(json_obj)
 			else:
 				json_obj["href"] = url
-		else:
-			new_object = {"type":"link", "tag": "a", "src": json_obj["href"],
-							"done": "true", "response": "There is now a path to another site on your site. META!"}
+		# else:
+		new_object = {"type":"link", "tag": "a", "href": url,
+						"done": "true", "response": "There is now a path to another site on your site. META!"}
 
-			return json.dumps(new_object)
+		return json.dumps(new_object)
 
 
 def get_input_from_user(text):

@@ -47,6 +47,9 @@ function getFrontendElement(object){
     else if(object.type === "images"){
         insertImage()
     }
+    else if(json_object.type === "link"){
+        insertImage(json_object)
+    }
 }
 
 // chooseFunction()
